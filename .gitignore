@@ -1,2 +1,8 @@
+# Elm
 elm-stuff/
+
+# Build files
 static/
+
+# Vagrant
+.vagrant/

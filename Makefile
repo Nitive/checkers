@@ -3,7 +3,7 @@ build:
 	  elm-make src/Main.elm --output static/build.js
 
 start:
-	@ elm reactor
+	@ elm reactor -a 0.0.0.0 -p 3000
 
 clean:
 	@ rm -rf static/ && \
