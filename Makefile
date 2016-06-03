@@ -4,3 +4,7 @@ build:
 
 start:
 	@ elm reactor
+
+clean:
+	@ rm -rf static/ && \
+	  rm -rf elm-stuff/
