@@ -9,7 +9,7 @@
 1. `vagrant ssh`
 1. `cd /vagrant`
 1. `make start`
-1. Go to [localhost:3000](http://localhost:3000/)
+1. Go to [localhost:3000/src/Main.elm](http://localhost:3000/src/Main.elm)
 
 Read more about vagrant (in Russian) — [Article about development environment by Hexlet team](hexlet-environment-article)
 
