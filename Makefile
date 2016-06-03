@@ -1,5 +1,6 @@
 build:
-	@ elm-make src/Main.elm --output build.js
+	@ mkdir -p static && \
+	  elm-make src/Main.elm --output static/build.js
 
 start:
 	@ elm reactor
