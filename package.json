@@ -1,0 +1,23 @@
+{
+  "name": "checkers",
+  "version": "0.1.0",
+  "description": "Checkers in Elm",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nitive/checkers.git"
+  },
+  "keywords": [
+    "checkers",
+    "elm"
+  ],
+  "author": "Maxim Samoilov <nitive@icloud.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Nitive/checkers/issues"
+  },
+  "homepage": "https://github.com/Nitive/checkers#readme"
+}
