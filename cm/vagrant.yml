@@ -23,3 +23,6 @@
       locale_gen: name=en_US.UTF-8
       tags: bash
 
+    - name: Install git
+      apt: name=git
+      become: yes
