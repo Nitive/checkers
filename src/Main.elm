@@ -51,7 +51,7 @@ rowStyles =
 cellStyles : Cell -> Style
 cellStyles cell =
   let
-    size = "20px"
+    size = "40px"
     color =
       case cell.color of
         Black -> "black"
