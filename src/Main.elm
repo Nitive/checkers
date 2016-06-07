@@ -76,16 +76,19 @@ view model =
 
 
 -- Initial state
+
+coordsToCell : Int -> Int -> Cell
+coordsToCell x y =
+ { color =
+     if (x + y) % 2 == 0
+      then Black
+      else White
+ }
+
 model : Model
 model =
   { field =
-    [ [ { color = Black }
-      , { color = White }
-      ]
-    , [ { color = White }
-      , { color = Black }
-      ]
-    ]
+      List.indexedMap (coordsToCell >> List.map) <| List.repeat 8 [0..7]
   }
 
 main = Html.beginnerProgram { model = model, update = update, view = view }
