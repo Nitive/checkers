@@ -1,18 +1,9 @@
 import Html exposing (Html, button, div, text, input, span)
 import Html.App as Html
 import Html.Attributes exposing (value, class, style)
+import Core exposing (..)
 
 -- Model
-
-type Color = Black | White
-
-type alias Cell =
-  { color: Color
-  }
-
-type alias Row = List Cell
-
-type alias Field = List Row
 
 type alias Style =
   List (String, String)
@@ -77,18 +68,9 @@ view model =
 
 -- Initial state
 
-coordsToCell : Int -> Int -> Cell
-coordsToCell x y =
- { color =
-     if (x + y) % 2 == 0
-      then Black
-      else White
- }
-
 model : Model
 model =
-  { field =
-      List.indexedMap (coordsToCell >> List.map) <| List.repeat 8 [0..7]
+  { field = initialField
   }
 
 main = Html.beginnerProgram { model = model, update = update, view = view }
