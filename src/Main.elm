@@ -1,9 +1,6 @@
 import Html exposing (Html, button, div, text, input, span)
 import Html.App as Html
-import Html.Events exposing (onClick, onInput)
-import Html.Attributes exposing (value)
-import String exposing (toInt)
-import Result exposing (withDefault)
+import Html.Attributes exposing (value, class, style)
 
 -- Model
 
@@ -16,6 +13,9 @@ type alias Cell =
 type alias Row = List Cell
 
 type alias Field = List Row
+
+type alias Style =
+  List (String, String)
 
 type alias Model =
   { field : Field
@@ -34,25 +34,45 @@ update msg model =
       model
 
 
-t : Cell
-t = { color = White }
-
 -- View
 
-cell : Cell -> Html Msg
-cell x = span []
-  [case x.color of
-    Black ->
-      text "black"
-
-    White ->
-      text "white"
+fieldStyles : Style
+fieldStyles =
+  [ ("display", "inline-block")
+  , ("padding", "10px")
+  , ("background-color", "gray")
   ]
+
+rowStyles : Style
+rowStyles =
+  [ ("display", "flex")
+  ]
+
+cellStyles : Cell -> Style
+cellStyles cell =
+  let
+    size = "20px"
+    color =
+      case cell.color of
+        Black -> "black"
+        White -> "white"
+  in
+     [ ("display", "inline-block")
+     , ("width", size)
+     , ("height", size)
+     , ("background-color", color)
+     ]
+
+
+cell : Cell -> Html Msg
+cell c =
+  span [style <| cellStyles c] []
+
 
 view : Model -> Html Msg
 view model =
-  div []
-    <| List.map (div [] << List.map cell) model.field
+  div [style fieldStyles]
+    <| List.map (div [style rowStyles] << List.map cell) model.field
 
 
 -- Initial state
