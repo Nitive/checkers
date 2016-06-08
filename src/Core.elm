@@ -13,11 +13,13 @@ type alias Field = List Row
 
 coordsToCell : Int -> Int -> Cell
 coordsToCell x y =
- { color =
-     if (x + y) % 2 == 0
-      then Black
-      else White
- }
+  let
+    color =
+      if (x + y) % 2 == 0
+        then Black
+        else White
+  in
+    Cell color
 
 
 initialField =

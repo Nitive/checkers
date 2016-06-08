@@ -70,7 +70,6 @@ view model =
 
 model : Model
 model =
-  { field = initialField
-  }
+  Model initialField
 
 main = Html.beginnerProgram { model = model, update = update, view = view }
