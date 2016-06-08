@@ -6,3 +6,6 @@ static/
 
 # Vagrant
 .vagrant/
+
+# Ansible
+*.retry
