@@ -48,16 +48,42 @@ cellStyles cell =
         Black -> "gray"
         White -> "white"
   in
-     [ ("display", "inline-block")
+     [ ("display", "inline-flex")
      , ("width", size)
      , ("height", size)
      , ("background-color", color)
      ]
 
+checkerStyles : Cell -> Style
+checkerStyles cell =
+  let
+    color =
+      case cell.checker of
+        Color White -> "white"
+        Color Black -> "black"
+        None -> ""
+
+    display =
+      if cell.checker == None
+        then "none"
+        else "block"
+
+    size = "30px"
+
+  in
+    [ ("display", display)
+    , ("width", size)
+    , ("height", size)
+    , ("margin", "auto")
+    , ("border-radius", "50%")
+    , ("background-color", color)
+    ]
 
 cell : Cell -> Html Msg
-cell c =
-  span [style <| cellStyles c] []
+cell props =
+  div [style <| cellStyles props]
+    [ div [style <| checkerStyles props] []
+    ]
 
 
 view : Model -> Html Msg
