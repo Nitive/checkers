@@ -31,7 +31,7 @@ fieldStyles : Style
 fieldStyles =
   [ ("display", "inline-block")
   , ("padding", "10px")
-  , ("background-color", "gray")
+  , ("background-color", "lightgray")
   ]
 
 rowStyles : Style
@@ -45,7 +45,7 @@ cellStyles cell =
     size = "40px"
     color =
       case cell.color of
-        Black -> "black"
+        Black -> "gray"
         White -> "white"
   in
      [ ("display", "inline-block")
