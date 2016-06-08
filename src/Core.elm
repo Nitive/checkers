@@ -2,8 +2,11 @@ module Core exposing (..)
 
 type Color = Black | White
 
+type Checker = Color Color | None
+
 type alias Cell =
-  { color: Color
+  { color : Color
+  , checker : Checker
   }
 
 type alias Row = List Cell
@@ -18,8 +21,16 @@ coordsToCell x y =
       if (x + y) % 2 == 0
         then White
         else Black
+
+    isBlack = color == Black
+
+    cherker =
+      if isBlack
+       then Color Black
+       else None
+
   in
-    Cell color
+    Cell color cherker
 
 
 fieldSize = 8
