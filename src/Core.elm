@@ -22,6 +22,8 @@ coordsToCell x y =
     Cell color
 
 
+fieldSize = 8
+
 initialField =
-  List.indexedMap (coordsToCell >> List.map) <| List.repeat 8 [0..7]
+  List.indexedMap (coordsToCell >> List.map) <| List.repeat fieldSize [0..fieldSize-1]
 
