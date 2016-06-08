@@ -16,8 +16,8 @@ coordsToCell x y =
   let
     color =
       if (x + y) % 2 == 0
-        then Black
-        else White
+        then White
+        else Black
   in
     Cell color
 
