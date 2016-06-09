@@ -6,6 +6,7 @@
   <script src="static/build.js"></script>
 </head>
 <body>
-  <script>Elm.Main.fullscreen()</script>
+  <div id="root"></div>
+  <script>Elm.Main.embed(document.getElementById('root'))</script>
 </body>
 </html>
