@@ -19,24 +19,43 @@ type alias Coords =
   }
 
 
+isTopLines : Coords -> Bool
+isTopLines {x} = x < 3
+
+
+isBottomLines : Coords -> Bool
+isBottomLines {x} = x > 4
+
+
+startCheckerColor : Coords -> Checker
+startCheckerColor coords =
+  if isTopLines coords then
+     Color Black
+
+  else if isBottomLines coords then
+    Color White
+
+  else
+    None
+
 
 coordsToCell : Coords -> Cell
-coordsToCell {x, y} =
+coordsToCell coords =
   let
     color =
-      if (x + y) % 2 == 0
+      if (coords.x + coords.y) % 2 == 0
         then White
         else Black
 
     isBlackCell = color == Black
 
-    cherker =
+    checker =
       if isBlackCell
-       then Color Black
+       then startCheckerColor coords
        else None
 
   in
-    Cell color cherker
+    Cell color checker
 
 
 fieldSize = 8
