@@ -20,11 +20,11 @@ type alias Coords =
 
 
 isTopLines : Coords -> Bool
-isTopLines {x} = x < 3
+isTopLines {y} = y < 3
 
 
 isBottomLines : Coords -> Bool
-isBottomLines {x} = x > 4
+isBottomLines {y} = y > 4
 
 
 startCheckerColor : Coords -> Checker
@@ -62,6 +62,6 @@ fieldSize = 8
 
 initialField =
   List.indexedMap
-    (\x -> List.map (coordsToCell << Coords x))
+    (\y -> List.map (coordsToCell << flip Coords y))
     (List.repeat fieldSize [0..fieldSize-1])
 
