@@ -1,6 +1,6 @@
 build:
 	@ mkdir -p static && \
-	  elm-make src/Main.elm --output static/build.js
+	  elm-make src/View.elm --output static/build.js
 
 start:
 	@ elm reactor -a 0.0.0.0 -p 3000
