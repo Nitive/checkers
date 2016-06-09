@@ -2,7 +2,7 @@ module Core exposing (..)
 
 type Color = Black | White
 
-type Checker = Color Color | None
+type alias Checker = Maybe Color
 
 type alias Cell =
   { color : Color
@@ -30,13 +30,13 @@ isBottomLines {y} = y > 4
 startCheckerColor : Coords -> Checker
 startCheckerColor coords =
   if isTopLines coords then
-     Color Black
+    Just Black
 
   else if isBottomLines coords then
-    Color White
+    Just White
 
   else
-    None
+    Nothing
 
 
 coordsToCell : Coords -> Cell
@@ -52,7 +52,7 @@ coordsToCell coords =
     checker =
       if isBlackCell
        then startCheckerColor coords
-       else None
+       else Nothing
 
   in
     Cell color checker

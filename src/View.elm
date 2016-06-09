@@ -59,12 +59,12 @@ checkerStyles cell =
   let
     color =
       case cell.checker of
-        Color White -> "white"
-        Color Black -> "black"
-        None -> ""
+        Just White -> "white"
+        Just Black -> "black"
+        Nothing -> ""
 
     display =
-      if cell.checker == None
+      if cell.checker == Nothing
         then "none"
         else "block"
 
