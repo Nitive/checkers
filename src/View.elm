@@ -1,6 +1,7 @@
 import Html exposing (Html, button, div, text, input, span)
 import Html.App as Html
 import Html.Attributes exposing (value, class, style)
+import TimeTravel.Html.App as TimeTravel
 import Core exposing (..)
 
 -- Model
@@ -98,4 +99,10 @@ model : Model
 model =
   Model <| initialField 8
 
-main = Html.beginnerProgram { model = model, update = update, view = view }
+main =
+  -- Html.beginnerProgram
+  TimeTravel.beginnerProgram
+    { model = model
+    , update = update
+    , view = view
+    }
