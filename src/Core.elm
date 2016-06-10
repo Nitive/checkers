@@ -58,9 +58,8 @@ coordsToCell coords =
     Cell color checker
 
 
-fieldSize = 8
-
-initialField =
+initialField : Int -> Field
+initialField fieldSize =
   List.indexedMap
     (\y -> List.map (coordsToCell << flip Coords y))
     (List.repeat fieldSize [0..fieldSize-1])

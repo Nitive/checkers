@@ -96,6 +96,6 @@ view model =
 
 model : Model
 model =
-  Model initialField
+  Model <| initialField 8
 
 main = Html.beginnerProgram { model = model, update = update, view = view }
