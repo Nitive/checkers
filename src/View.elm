@@ -31,7 +31,15 @@ update msg model =
       { model | field = selectCell cell model.field }
 
     MakeMove cell ->
-      { model | field = makeMoveFromSelected cell model.field }
+      let
+        field = makeMoveFromSelected cell model.field
+      in
+        case field of
+          Just newField ->
+            { model | field = newField }
+          Nothing ->
+            { model | field = clearField model.field }
+
 
 
 -- View

@@ -8,6 +8,7 @@ module Core exposing
   , Color(..)
   , updateCell
   , selectCell
+  , clearField
   , updateCells
   , getSelected
   , initialField
@@ -56,6 +57,12 @@ updateCells : (Cell -> Cell) -> Field -> Field
 updateCells = updateCellsIf (\c -> True)
 
 
+clearField : Field -> Field
+clearField =
+  updateCells <| \cell -> { cell | selected = False, highlighted = False }
+
+
+
 selectCell : Cell -> Field -> Field
 selectCell c field =
   updateCells (\cell ->
@@ -70,23 +77,25 @@ getSelected field =
   head <| filter .selected <| concat field
 
 
-makeMove : Cell -> Cell -> Field -> Field
-makeMove from to =
-  updateCells (\cell ->
-    { cell
-    | checker =
-        if cell.coords == to.coords then
-          from.checker
-        else if cell.coords == from.coords then
-          Nothing
-        else
-          cell.checker
-    , selected = False
-    , highlighted = False
-    })
+makeMove : Cell -> Cell -> Field -> Maybe Field
+makeMove from to field =
+  if isPossibleMove from to field
+    then Just <| updateCells (\cell ->
+      { cell
+      | checker =
+          if cell.coords == to.coords then
+            from.checker
+          else if cell.coords == from.coords then
+            Nothing
+          else
+            cell.checker
+      , selected = False
+      , highlighted = False
+      }) field
+    else Nothing
 
 
-makeMoveFromSelected : Cell -> Field -> Field
+makeMoveFromSelected : Cell -> Field -> Maybe Field
 makeMoveFromSelected to field =
   let
     selected = getSelected field
@@ -96,7 +105,7 @@ makeMoveFromSelected to field =
         makeMove sel to field
 
       Nothing ->
-        field
+        Just field
 
 
 isTrue : Bool -> Bool
