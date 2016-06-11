@@ -1,6 +1,16 @@
-module Core exposing (..)
+module Core exposing
+  ( Color(..)
+  , Checker
+  , Cell
+  , Row
+  , Field
+  , Coords
+  , updateCells
+  , initialField
+  )
 
 import List exposing (indexedMap, map, repeat)
+
 
 type Color = Black | White
 
@@ -48,8 +58,8 @@ isBottomLines : Coords -> Bool
 isBottomLines {y} = y > 4
 
 
-startCheckerColor : Coords -> Checker
-startCheckerColor coords =
+getInitialCheckerColor : Coords -> Checker
+getInitialCheckerColor coords =
   if isTopLines coords then
     Just Black
 
@@ -72,7 +82,7 @@ coordsToCell coords =
 
     checker =
       if isBlackCell
-       then startCheckerColor coords
+       then getInitialCheckerColor coords
        else Nothing
 
   in
