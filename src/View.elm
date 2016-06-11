@@ -1,5 +1,6 @@
 import Html exposing (Html, button, div, text, input, span)
 import Html.App as Html
+import Html.Events exposing (onClick)
 import Html.Attributes exposing (value, class, style)
 import TimeTravel.Html.App as TimeTravel
 import Core exposing (..)
@@ -17,13 +18,17 @@ type alias Model =
 -- Update
 
 type Msg
-  = N
+  = SelectCheker Coords
+
+selectCell : Cell -> Cell
+selectCell cell = { cell | selected = True }
+
 
 update : Msg -> Model -> Model
 update msg model =
   case msg of
-    N ->
-      model
+    SelectCheker coords ->
+      { model | field = updateCell selectCell coords model.field }
 
 
 -- View
@@ -44,15 +49,23 @@ cellStyles : Cell -> Style
 cellStyles cell =
   let
     size = "40px"
+
     color =
       case cell.color of
         Black -> "gray"
         White -> "white"
+
+    border =
+      if cell.selected
+        then "solid 2px red"
+        else "none"
   in
      [ ("display", "inline-flex")
      , ("width", size)
      , ("height", size)
      , ("background-color", color)
+     , ("box-sizing", "border-box")
+     , ("border", border)
      ]
 
 checkerStyles : Cell -> Style
@@ -83,7 +96,11 @@ checkerStyles cell =
 cell : Cell -> Html Msg
 cell props =
   div [style <| cellStyles props]
-    [ div [style <| checkerStyles props] []
+    [ div
+      [ onClick <| SelectCheker props.coords
+      , style <| checkerStyles props
+      ]
+      []
     ]
 
 
@@ -99,6 +116,7 @@ model : Model
 model =
   Model <| initialField 8
 
+main : Program Never
 main =
   -- Html.beginnerProgram
   TimeTravel.beginnerProgram

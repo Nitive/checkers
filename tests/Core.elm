@@ -1,11 +1,49 @@
 import ElmTest exposing (..)
 import Core exposing (..)
+import Maybe exposing (withDefault, andThen)
+import List exposing (head, length, drop)
+
+testCell : Cell
+testCell =
+  { coords = { x = 1, y = 0 }
+  , color = Black
+  , checker = Just Black
+  , selected = False
+  }
+
+elem : Int -> List a -> Maybe a
+elem index list = head <| drop index list
+
+first : List (List a) -> Maybe a
+first list = head list `andThen` elem 1
 
 tests : Test
 tests =
-  suite "field"
-    [ test "generate field with right height"
-      <| assertEqual 8 <| List.length <| initialField 8
+  suite "tests"
+    [ suite "field"
+      [ let
+          expected = 8
+          actual = length <| initialField 8
+        in
+          test "generate field with right height"
+            <| assertEqual actual expected
+        ]
+    , suite "updateElement"
+      [ let
+          expected = [1, 4, 3]
+          actual = updateElement 1 ((^)2) [1..3]
+        in
+          test "update element in list"
+            <| assertEqual actual expected
+      ]
+    , suite "updateCell"
+      [ let
+          expected = Just testCell
+          actual = first <| updateCell (\c -> testCell) { x = 1, y = 0 } (initialField 8)
+        in
+          test "update cell in field"
+            <| assertEqual actual expected
+      ]
     ]
 
 main = runSuiteHtml tests

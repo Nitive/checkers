@@ -1,12 +1,15 @@
 module Core exposing (..)
+import List exposing (indexedMap, map, repeat)
 
 type Color = Black | White
 
 type alias Checker = Maybe Color
 
 type alias Cell =
-  { color : Color
+  { coords : Coords
+  , color : Color
   , checker : Checker
+  , selected : Bool
   }
 
 type alias Row = List Cell
@@ -18,6 +21,13 @@ type alias Coords =
   , y : Int
   }
 
+updateElement : Int -> (a -> a) -> List a -> List a
+updateElement index fn =
+  indexedMap <| \i e -> if i == index then fn e else e
+
+updateCell : (Cell -> Cell) -> Coords -> Field -> Field
+updateCell fn {x, y} =
+  updateElement y (updateElement x fn)
 
 isTopLines : Coords -> Bool
 isTopLines {y} = y < 3
@@ -55,12 +65,12 @@ coordsToCell coords =
        else Nothing
 
   in
-    Cell color checker
+    Cell coords color checker False
 
 
 initialField : Int -> Field
 initialField fieldSize =
-  List.indexedMap
-    (\y -> List.map (coordsToCell << flip Coords y))
-    (List.repeat fieldSize [0..fieldSize-1])
+  indexedMap
+    (\y -> map (coordsToCell << flip Coords y))
+    (repeat fieldSize [0..fieldSize-1])
 
