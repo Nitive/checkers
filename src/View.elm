@@ -20,17 +20,12 @@ type alias Model =
 type Msg
   = SelectCheker Coords
 
-selectCell : Cell -> Cell
-selectCell cell = { cell | selected = True }
-
 
 update : Msg -> Model -> Model
 update msg model =
   case msg of
     SelectCheker coords ->
-      { model | field =
-        updateCells (\cell -> { cell | selected = cell.coords == coords }) model.field
-      }
+      { model | field = selectCell coords model.field }
 
 
 -- View

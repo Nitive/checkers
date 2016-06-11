@@ -7,6 +7,7 @@ module Core exposing
   , Coords
   , updateCells
   , initialField
+  , selectCell
   )
 
 import List exposing (indexedMap, map, repeat)
@@ -49,6 +50,13 @@ updateCell fn coords =
 updateCells : (Cell -> Cell) -> Field -> Field
 updateCells = updateCellsIf (\c -> True)
 
+
+selectCell : Coords -> Field -> Field
+selectCell coords =
+  updateCells (\cell -> { cell | selected = cell.coords == coords })
+
+
+-- initial data
 
 isTopLines : Coords -> Bool
 isTopLines {y} = y < 3
