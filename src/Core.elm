@@ -5,11 +5,13 @@ module Core exposing
   , Row
   , Field
   , Coords
+  , updateCell
   , updateCells
   , initialField
   , selectCell
   , getSelected
   , makeMove
+  , makeMoveFromSelected
   )
 
 import List exposing (indexedMap, map, repeat, filter, concat, head)
@@ -63,18 +65,31 @@ getSelected field =
 
 
 makeMove : Cell -> Cell -> Field -> Field
-makeMove prev next =
+makeMove from to =
   updateCells (\cell ->
     { cell
     | checker =
-        if cell.coords == next.coords then
-          prev.checker
-        else if cell.coords == prev.coords then
+        if cell.coords == to.coords then
+          from.checker
+        else if cell.coords == from.coords then
           Nothing
         else
           cell.checker
     , selected = False
     })
+
+
+makeMoveFromSelected : Cell -> Field -> Field
+makeMoveFromSelected to field =
+  let
+    selected = getSelected field
+  in
+    case selected of
+      Just sel ->
+        makeMove sel to field
+
+      Nothing ->
+        field
 
 
 

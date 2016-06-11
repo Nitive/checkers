@@ -29,15 +29,7 @@ update msg model =
       { model | field = selectCell cell model.field }
 
     MakeMove cell ->
-      let
-        selected = getSelected model.field
-      in
-        case selected of
-          Just sel ->
-            { model | field = makeMove sel cell model.field }
-
-          Nothing ->
-            model
+      { model | field = makeMoveFromSelected cell model.field }
 
 
 -- View
