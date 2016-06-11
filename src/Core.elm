@@ -1,16 +1,16 @@
 module Core exposing
-  ( Color(..)
-  , Checker
+  ( Row
   , Cell
-  , Row
   , Field
   , Coords
-  , updateCell
-  , updateCells
-  , initialField
-  , selectCell
-  , getSelected
+  , Checker
   , makeMove
+  , Color(..)
+  , updateCell
+  , selectCell
+  , updateCells
+  , getSelected
+  , initialField
   , makeMoveFromSelected
   )
 
