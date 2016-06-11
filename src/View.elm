@@ -18,14 +18,26 @@ type alias Model =
 -- Update
 
 type Msg
-  = SelectCheker Coords
+  = SelectCheker Cell
+  | MakeMove Cell
 
 
 update : Msg -> Model -> Model
 update msg model =
   case msg of
-    SelectCheker coords ->
-      { model | field = selectCell coords model.field }
+    SelectCheker cell ->
+      { model | field = selectCell cell model.field }
+
+    MakeMove cell ->
+      let
+        selected = getSelected model.field
+      in
+        case selected of
+          Just sel ->
+            { model | field = makeMove sel cell model.field }
+
+          Nothing ->
+            model
 
 
 -- View
@@ -92,10 +104,14 @@ checkerStyles cell =
 
 cell : Cell -> Html Msg
 cell props =
-  div [style <| cellStyles props]
+  div
+    [ style <| cellStyles props
+    , onClick <| if props.checker /= Nothing
+       then SelectCheker props
+       else MakeMove props
+    ]
     [ div
-      [ onClick <| SelectCheker props.coords
-      , style <| checkerStyles props
+      [ style <| checkerStyles props
       ]
       []
     ]

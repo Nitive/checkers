@@ -8,9 +8,11 @@ module Core exposing
   , updateCells
   , initialField
   , selectCell
+  , getSelected
+  , makeMove
   )
 
-import List exposing (indexedMap, map, repeat)
+import List exposing (indexedMap, map, repeat, filter, concat, head)
 
 
 type Color = Black | White
@@ -51,9 +53,29 @@ updateCells : (Cell -> Cell) -> Field -> Field
 updateCells = updateCellsIf (\c -> True)
 
 
-selectCell : Coords -> Field -> Field
-selectCell coords =
+selectCell : Cell -> Field -> Field
+selectCell {coords} =
   updateCells (\cell -> { cell | selected = cell.coords == coords })
+
+getSelected : Field -> Maybe Cell
+getSelected field =
+  head <| filter .selected <| concat field
+
+
+makeMove : Cell -> Cell -> Field -> Field
+makeMove prev next =
+  updateCells (\cell ->
+    { cell
+    | checker =
+        if cell.coords == next.coords then
+          prev.checker
+        else if cell.coords == prev.coords then
+          Nothing
+        else
+          cell.checker
+    , selected = False
+    })
+
 
 
 -- initial data
