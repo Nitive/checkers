@@ -3,6 +3,8 @@ import Html.App as Html
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (value, class, style)
 import TimeTravel.Html.App as TimeTravel
+import List exposing (map)
+import String exposing (join)
 import Core exposing (..)
 
 -- Model
@@ -52,9 +54,13 @@ cellStyles cell =
     size = "40px"
 
     color =
-      case cell.color of
-        Black -> "gray"
-        White -> "white"
+      if cell.highlighted
+        then
+          "red"
+        else
+          case cell.color of
+            Black -> "gray"
+            White -> "white"
 
     border =
       if cell.selected
@@ -78,15 +84,10 @@ checkerStyles cell =
         Just Black -> "black"
         Nothing -> ""
 
-    display =
-      if cell.checker == Nothing
-        then "none"
-        else "block"
-
     size = "30px"
 
   in
-    [ ("display", display)
+    [ ("color", "green")
     , ("width", size)
     , ("height", size)
     , ("margin", "auto")
@@ -105,14 +106,15 @@ cell props =
     [ div
       [ style <| checkerStyles props
       ]
-      []
+      [ text <| join ", " <| map toString [props.coords.x, props.coords.y]
+      ]
     ]
 
 
 view : Model -> Html Msg
 view model =
   div [style fieldStyles]
-    <| List.map (div [style rowStyles] << List.map cell) model.field
+    <| map (div [style rowStyles] << map cell) model.field
 
 
 -- Initial state

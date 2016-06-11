@@ -9,6 +9,7 @@ testCell =
   , color = Black
   , checker = Just Black
   , selected = False
+  , highlighted = False
   }
 
 elem : Int -> List a -> Maybe a

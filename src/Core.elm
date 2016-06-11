@@ -14,7 +14,7 @@ module Core exposing
   , makeMoveFromSelected
   )
 
-import List exposing (indexedMap, map, repeat, filter, concat, head)
+import List exposing (indexedMap, map, repeat, filter, concat, head, all, any)
 
 
 type Color = Black | White
@@ -26,6 +26,7 @@ type alias Cell =
   , color : Color
   , checker : Checker
   , selected : Bool
+  , highlighted: Bool
   }
 
 type alias Row = List Cell
@@ -56,8 +57,13 @@ updateCells = updateCellsIf (\c -> True)
 
 
 selectCell : Cell -> Field -> Field
-selectCell {coords} =
-  updateCells (\cell -> { cell | selected = cell.coords == coords })
+selectCell c field =
+  updateCells (\cell ->
+    { cell
+    | selected = cell.coords == c.coords
+    , highlighted = isPossibleMove c cell field
+    }) field
+
 
 getSelected : Field -> Maybe Cell
 getSelected field =
@@ -76,6 +82,7 @@ makeMove from to =
         else
           cell.checker
     , selected = False
+    , highlighted = False
     })
 
 
@@ -91,6 +98,28 @@ makeMoveFromSelected to field =
       Nothing ->
         field
 
+
+isTrue : Bool -> Bool
+isTrue = (==) True
+
+
+isPossibleMove : Cell -> Cell -> Field -> Bool
+isPossibleMove from to field =
+  all isTrue
+    [ to.checker == Nothing
+    , to.color == Black
+    , abs (from.coords.x - to.coords.x) == 1
+    , any isTrue
+      [ all isTrue
+        [ from.checker == Just White
+        , from.coords.y - to.coords.y == 1
+        ]
+      , all isTrue
+        [ from.checker == Just Black
+        , from.coords.y - to.coords.y == -1
+        ]
+      ]
+    ]
 
 
 -- initial data
@@ -131,7 +160,7 @@ coordsToCell coords =
        else Nothing
 
   in
-    Cell coords color checker False
+    Cell coords color checker False False
 
 
 initialField : Int -> Field
