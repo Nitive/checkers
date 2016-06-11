@@ -36,8 +36,8 @@ updateCell fn coords =
   updateCellsIf (\c -> c.coords == coords) fn
 
 
-updateAllCells : (Cell -> Cell) -> Field -> Field
-updateAllCells = updateCellsIf (\c -> True)
+updateCells : (Cell -> Cell) -> Field -> Field
+updateCells = updateCellsIf (\c -> True)
 
 
 isTopLines : Coords -> Bool

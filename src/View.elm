@@ -28,7 +28,9 @@ update : Msg -> Model -> Model
 update msg model =
   case msg of
     SelectCheker coords ->
-      { model | field = updateCell selectCell coords model.field }
+      { model | field =
+        updateCells (\cell -> { cell | selected = cell.coords == coords }) model.field
+      }
 
 
 -- View
