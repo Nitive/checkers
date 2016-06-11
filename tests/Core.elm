@@ -28,14 +28,6 @@ tests =
           test "generate field with right height"
             <| assertEqual actual expected
         ]
-    , suite "updateElement"
-      [ let
-          expected = [1, 4, 3]
-          actual = updateElement 1 ((^)2) [1..3]
-        in
-          test "update element in list"
-            <| assertEqual actual expected
-      ]
     , suite "updateCell"
       [ let
           expected = Just testCell

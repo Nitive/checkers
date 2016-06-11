@@ -1,4 +1,5 @@
 module Core exposing (..)
+
 import List exposing (indexedMap, map, repeat)
 
 type Color = Black | White
@@ -21,13 +22,23 @@ type alias Coords =
   , y : Int
   }
 
-updateElement : Int -> (a -> a) -> List a -> List a
-updateElement index fn =
-  indexedMap <| \i e -> if i == index then fn e else e
+
+updateCellsIf : (Cell -> Bool) -> (Cell -> Cell) -> Field -> Field
+updateCellsIf pred update =
+  map <| map <| \cell ->
+    if pred cell
+      then update cell
+      else cell
+
 
 updateCell : (Cell -> Cell) -> Coords -> Field -> Field
-updateCell fn {x, y} =
-  updateElement y (updateElement x fn)
+updateCell fn coords =
+  updateCellsIf (\c -> c.coords == coords) fn
+
+
+updateAllCells : (Cell -> Cell) -> Field -> Field
+updateAllCells = updateCellsIf (\c -> True)
+
 
 isTopLines : Coords -> Bool
 isTopLines {y} = y < 3
