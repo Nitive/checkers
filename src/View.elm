@@ -92,6 +92,11 @@ checkerStyles cell =
         Just Black -> "black"
         Nothing -> ""
 
+    cursor =
+      case cell.checker of
+        Just color -> "pointer"
+        Nothing -> "default"
+
     size = "30px"
 
   in
@@ -101,6 +106,7 @@ checkerStyles cell =
     , ("margin", "auto")
     , ("border-radius", "50%")
     , ("background-color", color)
+    , ("cursor", cursor)
     ]
 
 cell : Cell -> Html Msg
