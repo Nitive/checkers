@@ -1,21 +1,23 @@
 module Core exposing
   ( Row
   , Cell
+  , elem
   , Field
   , Coords
   , Checker
   , makeMove
-  , Color(..)
   , updateCell
   , selectCell
   , clearField
   , updateCells
   , getSelected
   , initialField
+  , Color(White, Black)
   , makeMoveFromSelected
   )
 
-import List exposing (indexedMap, map, repeat, filter, concat, head, all, any)
+import List exposing (indexedMap, map, repeat, filter, concat, head, all, any, drop, sum, length)
+import Maybe exposing (andThen)
 
 
 type Color = Black | White
@@ -112,20 +114,55 @@ isTrue : Bool -> Bool
 isTrue = (==) True
 
 
+elem : Int -> List a -> Maybe a
+elem index list = head <| drop index list
+
+
+cellByCoords : Coords -> Field -> Maybe Cell
+cellByCoords {x, y} field =
+  elem y field `andThen` elem x
+
+
+avg : List Int -> Int
+avg list =
+  sum list // length list
+
+
 isPossibleMove : Cell -> Cell -> Field -> Bool
 isPossibleMove from to field =
   all isTrue
     [ to.checker == Nothing
     , to.color == Black
-    , abs (from.coords.x - to.coords.x) == 1
     , any isTrue
       [ all isTrue
         [ from.checker == Just White
         , from.coords.y - to.coords.y == 1
+        , abs (from.coords.x - to.coords.x) == 1
         ]
       , all isTrue
         [ from.checker == Just Black
         , from.coords.y - to.coords.y == -1
+        , abs (from.coords.x - to.coords.x) == 1
+        ]
+      , all isTrue
+        [ from.checker == Just White
+        , from.coords.y - to.coords.y == 2
+        , abs (from.coords.x - to.coords.x) == 2
+        , (cellByCoords
+            { x = avg [from.coords.x, to.coords.x]
+            , y = avg [from.coords.y, to.coords.y]
+            }
+            field) `andThen` .checker == Just Black
+        ]
+      , all isTrue
+        [ from.checker == Just Black
+        , from.coords.y - to.coords.y == -2
+        , abs (from.coords.x - to.coords.x) == 2
+        , (cellByCoords
+            { x = avg [from.coords.x, to.coords.x]
+            , y = avg [from.coords.y, to.coords.y]
+            }
+            field) `andThen` .checker == Just White
         ]
       ]
     ]

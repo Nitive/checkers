@@ -5,10 +5,6 @@ import List exposing (head, length, drop, all)
 import Random exposing (Generator)
 
 
-elem : Int -> List a -> Maybe a
-elem index list = head <| drop index list
-
-
 first : List (List a) -> Maybe a
 first list = head list `andThen` elem 1
 
