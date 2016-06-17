@@ -89,6 +89,11 @@ makeMove from to field =
             from.checker
           else if cell.coords == from.coords then
             Nothing
+          else if cell.coords ==
+                  { x = avg [to.coords.x, from.coords.x]
+                  , y = avg [to.coords.y, from.coords.y]
+                  } then
+            Nothing
           else
             cell.checker
       , selected = False
