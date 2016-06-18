@@ -152,7 +152,7 @@ isPossibleMove from to field =
         ]
       , all isTrue
         [ from.checker == Just Black
-        , from.coords.y - to.coords.y == -1
+        , to.coords.y - from.coords.y == 1
         , abs (from.coords.x - to.coords.x) == 1
         ]
       , all isTrue
@@ -167,13 +167,17 @@ isPossibleMove from to field =
         ]
       , all isTrue
         [ from.checker == Just Black
-        , from.coords.y - to.coords.y == -2
+        , to.coords.y - from.coords.y == 2
         , abs (from.coords.x - to.coords.x) == 2
         , (cellByCoords
             { x = avg [from.coords.x, to.coords.x]
             , y = avg [from.coords.y, to.coords.y]
             }
             field) `andThen` .checker == Just White
+        ]
+      , all isTrue
+        [ from.king == Just True
+        , abs (from.coords.y - to.coords.y) == abs (from.coords.x - to.coords.x)
         ]
       ]
     ]
@@ -216,7 +220,8 @@ coordsToCell coords =
        then getInitialCheckerColor coords
        else Nothing
 
-    king = Just False
+    -- king = Just False
+    king = Just True
 
   in
     Cell coords color checker king False False
