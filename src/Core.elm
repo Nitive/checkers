@@ -79,6 +79,11 @@ getSelected field =
   head <| filter .selected <| concat field
 
 
+between : Int -> Int -> Int -> Bool
+between a b x =
+  (a < x && x < b) || (b < x && x < a)
+
+
 makeMove : Cell -> Cell -> Field -> Maybe Field
 makeMove from to field =
   if isPossibleMove from to field
@@ -89,10 +94,10 @@ makeMove from to field =
             from.checker
           else if cell.coords == from.coords then
             Nothing
-          else if cell.coords ==
-                  { x = avg [to.coords.x, from.coords.x]
-                  , y = avg [to.coords.y, from.coords.y]
-                  } then
+          else if
+            between from.coords.x to.coords.x cell.coords.x &&
+            between from.coords.y to.coords.y cell.coords.y
+          then
             Nothing
           else
             cell.checker
