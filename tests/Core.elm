@@ -38,10 +38,11 @@ randomCell coords seed =
         then checker'
         else Nothing
 
+    king = Just False
     (selected, seed''') = Random.step Random.bool seed''
     highlighted = fst <| Random.step Random.bool seed'''
   in
-    Cell coords color checker selected highlighted
+    Cell coords color checker king selected highlighted
 
 
 testCell : Cell

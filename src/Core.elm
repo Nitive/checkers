@@ -28,6 +28,7 @@ type alias Cell =
   { coords : Coords
   , color : Color
   , checker : Checker
+  , king : Maybe Bool
   , selected : Bool
   , highlighted: Bool
   }
@@ -215,8 +216,10 @@ coordsToCell coords =
        then getInitialCheckerColor coords
        else Nothing
 
+    king = Just False
+
   in
-    Cell coords color checker False False
+    Cell coords color checker king False False
 
 
 initialField : Int -> Field
