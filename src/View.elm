@@ -97,6 +97,12 @@ checkerStyles cell =
         Just color -> "pointer"
         Nothing -> "default"
 
+    radius =
+      case cell.king of
+        Just True -> "none"
+        Just False -> "50%"
+        Nothing -> ""
+
     size = "30px"
 
   in
@@ -104,7 +110,7 @@ checkerStyles cell =
     , ("width", size)
     , ("height", size)
     , ("margin", "auto")
-    , ("border-radius", "50%")
+    , ("border-radius", radius)
     , ("background-color", color)
     , ("cursor", cursor)
     ]
