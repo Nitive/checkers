@@ -67,9 +67,10 @@ Vagrant.configure(2) do |config|
   # Enable provisioning with a ansible playbook. Additional provisioners such as
   # Puppet, Chef, Shell, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  config.vm.provision "ansible" do |ansible|
+  config.vm.provision "ansible_local" do |ansible|
     ansible.playbook = "cm/vagrant.yml"
     ansible.tags = ENV["TAGS"]
+    ansible.install = true
     ansible.verbose = "vv"
   end
 
